@@ -1,7 +1,10 @@
 package com.learnspringboot.demo.controller;
 
+import com.learnspringboot.demo.entity.Phone;
 import com.learnspringboot.demo.repository.PhoneRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // This annotation is used to mark the class as a REST controller
@@ -16,8 +19,11 @@ public class PhoneController {
     }
 
     @PostMapping("/save") // This annotation is used to map the URL to the method
-    public void savePhone(){
+    public ResponseEntity<Phone> savePhone(@RequestBody Phone phone){
         // This method is used to save a phone
+        Phone save = phoneRepo.save(phone);
+
+        return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
 
     @GetMapping("/get") // This annotation is used to map the URL to the method
