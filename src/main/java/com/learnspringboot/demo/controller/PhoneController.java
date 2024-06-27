@@ -47,11 +47,11 @@ public class PhoneController {
     }
 
     @PutMapping("/update/{id}") // This annotation is used to map the URL to the method
-    public ResponseEntity<String> updatePhone(@PathVariable Phone phone){
+    public ResponseEntity<Object> updatePhone(@PathVariable int id, @RequestBody Phone phone){
         // This method is used to update a phone
-        if (phoneRepo.existsById(phone.getId())){
-            phoneRepo.save(phone);
-            return new ResponseEntity<>("Phone updated successfully", HttpStatus.OK);
+        if (phoneRepo.existsById(id)){
+            Phone updated = phoneRepo.save(new Phone(id, phone.getBrand(), phone.getModel(), phone.getNoOfCameras(), phone.getPrice()));
+            return new ResponseEntity<>(updated, HttpStatus.CREATED);
         }
         return new ResponseEntity<>("Phone not found", HttpStatus.NOT_FOUND);
     }
